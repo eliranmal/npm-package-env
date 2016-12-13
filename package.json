@@ -7,11 +7,24 @@
     "lib"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "release": "bin/release.sh",
     "patch": "npm version patch && npm run release",
     "minor": "npm version minor && npm run release",
     "major": "npm version major && npm run release"
+  },
+  "config": {
+    "foo": "bar",
+    "obj": {
+      "foo": "bar",
+      "wat": "wow"
+    }
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "npm-package-env": "./"
   },
   "repository": {
     "type": "git",
@@ -47,8 +60,6 @@
     "url": "https://github.com/eliranmal/npm-package-env/issues"
   },
   "homepage": "https://github.com/eliranmal/npm-package-env#readme",
-  "dependencies": {
-  },
   "engines": {
     "node": ">=4.4.7"
   }
