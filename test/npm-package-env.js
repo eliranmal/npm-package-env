@@ -13,25 +13,36 @@ const assert = require('assert');
 describe('npm-package-env', function () {
 
     const env = require('../lib/npm-package-env');
-    
+
     beforeEach(function init() {
-        env._.at('npm_package_config');
+        env._in('npm_package_config');
     });
 
     describe('#string', function () {
 
-        it('should return the property value', function () {
-            let result = env.foo._.string();
+        it('should return the property value as string', function () {
+            let result = env.foo._as('string');
             assert.equal(result, 'bar');
+        });
+
+    });
+
+    describe('#array', function () {
+
+        it('should return an array from the specified namespace', function () {
+            let result = env.arr._as('array');
+            assert(Array.isArray(result));
+            assert.equal(result[0], 'foo');
+            assert.equal(result[2], 'wat');
         });
 
     });
 
     describe('#object', function () {
 
-        it('should return an object with values specified by keys', function () {
-            let result = env.obj._.object(['foo']);
-            console.log(`result: ${JSON.stringify(result)}`);
+        it('should return an object from the specified namespace with values from the specified keys', function () {
+            let result = env.obj._as('object', ['foo']);
+            assert.ok(result);
             assert.equal(result.foo, 'bar');
         });
 

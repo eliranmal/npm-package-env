@@ -18,7 +18,12 @@
     "obj": {
       "foo": "bar",
       "wat": "wow"
-    }
+    },
+    "arr": [
+      "foo",
+      "bar",
+      "wat"
+    ]
   },
   "dependencies": {
   },
