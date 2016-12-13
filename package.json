@@ -14,16 +14,18 @@
     "major": "npm version major && npm run release"
   },
   "config": {
-    "foo": "bar",
-    "obj": {
+    "wrap-obj": {
       "foo": "bar",
-      "wat": "wow"
-    },
-    "arr": [
-      "foo",
-      "bar",
-      "wat"
-    ]
+      "obj": {
+        "foo": "bar",
+        "wat": "wow"
+      },
+      "arr": [
+        "foo",
+        "bar",
+        "wat"
+      ]
+    }
   },
   "dependencies": {
   },

@@ -21,7 +21,7 @@ describe('npm-package-env', function () {
     describe('#string', function () {
 
         it('should return the property value as string', function () {
-            let result = env.foo._as('string');
+            let result = env['wrap-obj'].foo._as('string');
             assert.equal(result, 'bar');
         });
 
@@ -30,7 +30,7 @@ describe('npm-package-env', function () {
     describe('#array', function () {
 
         it('should return an array from the specified namespace', function () {
-            let result = env.arr._as('array');
+            let result = env['wrap-obj'].arr._as('array');
             assert(Array.isArray(result));
             assert.equal(result[0], 'foo');
             assert.equal(result[2], 'wat');
@@ -41,7 +41,7 @@ describe('npm-package-env', function () {
     describe('#object', function () {
 
         it('should return an object from the specified namespace with values from the specified keys', function () {
-            let result = env.obj._as('object', ['foo']);
+            let result = env['wrap-obj'].obj._as('object', ['foo']);
             assert.ok(result);
             assert.equal(result.foo, 'bar');
         });
