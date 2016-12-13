@@ -1,6 +1,6 @@
 {
   "name": "npm-package-env",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "conveniently get npm_package_ variables using property accessors",
   "main": "./lib/npm-package-env.js",
   "files": [
@@ -27,8 +27,7 @@
       ]
     }
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "^3.2.0",
     "npm-package-env": "./"
