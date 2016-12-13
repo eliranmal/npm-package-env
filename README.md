@@ -14,6 +14,13 @@ npm i npm-package-env -S
 
 ## usage
 
+###### my-npm-script.js
+
+```javascript
+const env = require('npm-package-env')._in('npm_package_config');
+console.log(env['dev-server'].port._as('string')); // -> 7777
+```
+
 ###### package.json
 
 ```json
@@ -25,18 +32,10 @@ npm i npm-package-env -S
         }
     },
     "scripts": {
-        "start": "my-script"
+        "start": "my-npm-script"
     }
 }
 ```
-
-###### my-script.js
-
-```javascript
-const env = require('npm-package-env')._.at('npm_package_config');
-console.log(env['dev-server'].port); // -> 7777
-```
-
 
 
 
