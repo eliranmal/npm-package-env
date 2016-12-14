@@ -14,40 +14,49 @@ describe('npm-package-env', function () {
 
     const env = require('../lib/npm-package-env');
 
-    beforeEach(function init() {
-        env._in('npm_package_config');
+    describe('#_in', function () {
+
+        it('should return self', function () {
+            let self = env._in('npm_package_config');
+            assert.ok(self);
+            assert.equal(self, env);
+        });
     });
 
-    describe('#string', function () {
+    describe('#_as', function () {
 
-        it('should return the property value as string', function () {
-            let result = env['wrap-obj'].foo._as('string');
-            assert.equal(result, 'bar');
+        beforeEach(function init() {
+            env._in('npm_package_config');
         });
 
-    });
+        describe('string', function () {
 
-    describe('#array', function () {
-
-        it('should return an array from the specified namespace', function () {
-            let result = env['wrap-obj'].arr._as('array');
-            assert(Array.isArray(result));
-            assert.equal(result[0], 'foo');
-            assert.equal(result[2], 'wat');
+            it('should return the property value as string', function () {
+                let result = env['wrap-obj'].foo._as('string');
+                assert.equal(result, 'bar');
+            });
         });
 
-    });
+        describe('array', function () {
 
-    describe('#object', function () {
-
-        it('should return an object from the specified namespace with values from the specified keys', function () {
-            let result = env['wrap-obj'].obj._as('object', ['foo']);
-            assert(result && typeof result === 'object' && !Array.isArray(result));
-            assert.equal(result.foo, 'bar');
+            it('should return an array from the specified namespace', function () {
+                let result = env['wrap-obj'].arr._as('array');
+                assert(Array.isArray(result));
+                assert.equal(result[0], 'foo');
+                assert.equal(result[2], 'wat');
+            });
         });
 
-    });
+        describe('object', function () {
 
+            it('should return an object from the specified namespace with values from the specified keys', function () {
+                let result = env['wrap-obj'].obj._as('object', ['foo']);
+                assert(result && typeof result === 'object' && !Array.isArray(result));
+                assert.equal(result.foo, 'bar');
+            });
+        });
+    });
+    
     xdescribe('when called with dot accessor', function () {
     });
 
