@@ -4,7 +4,7 @@
  * this test must be run as an npm script for the library to work properly
  * 
  * the fixtures are actually the package.json fields, so the root package.json is used for that,
- * and the "config" field is there solely for that purpose.
+ * and the "config" field is there solely for testing purposes.
  */
 
 const assert = require('assert');
