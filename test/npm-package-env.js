@@ -12,27 +12,49 @@ const assert = require('assert');
 
 describe('npm-package-env', function () {
 
-    const env = require('../lib/npm-package-env');
+    let env;
 
+    beforeEach(function init() {
+        env = require('../lib/npm-package-env');
+    });
+    
     describe('#_in', function () {
 
-        it('should return self', function () {
-            let self = env._in('config');
-            assert.ok(self);
-            assert.equal(self, env);
+        it('should return a new instance', function () {
+            let envConfig = env._in('config');
+            assert.ok(envConfig);
+            assert(envConfig !== env);
+            assert.equal(typeof envConfig, typeof env);
+        });
+
+        it('should return an instance that is bound to the passed prefixes', function () {
+            let envConfig = env._in('config');
+            assert.equal(envConfig.__meta._prefix[0], 'config');
+        });
+
+        it('should not conflict with another instances\' accessor calls', function () {
+            let firstName = env.name._as('string');
+            let envDependencies = env._in('dependencies');
+            envDependencies.name._as('string');
+            let secondName = env.name._as('string');
+            assert.ok(firstName);
+            assert.ok(secondName);
+            assert.equal(firstName, secondName);
         });
     });
 
     describe('#_as', function () {
 
+        let configEnv;
+        
         beforeEach(function init() {
-            env._in('config');
+            configEnv = env._in('config');
         });
 
         describe('string', function () {
 
             it('should return the property value as string', function () {
-                let result = env['wrap-obj'].foo._as('string');
+                let result = configEnv['wrap-obj'].foo._as('string');
                 assert.equal(result, 'bar');
             });
         });
@@ -40,7 +62,7 @@ describe('npm-package-env', function () {
         describe('array', function () {
 
             it('should return an array from the specified namespace', function () {
-                let result = env['wrap-obj'].arr._as('array');
+                let result = configEnv['wrap-obj'].arr._as('array');
                 assert(Array.isArray(result));
                 assert.equal(result[0], 'foo');
                 assert.equal(result[2], 'wat');
@@ -50,14 +72,10 @@ describe('npm-package-env', function () {
         describe('object', function () {
 
             it('should return an object from the specified namespace with values from the specified keys', function () {
-                let result = env['wrap-obj'].obj._as('object', ['foo']);
+                let result = configEnv['wrap-obj'].obj._as('object', ['foo']);
                 assert(result && typeof result === 'object' && !Array.isArray(result));
                 assert.equal(result.foo, 'bar');
             });
         });
     });
-    
-    xdescribe('when called with dot accessor', function () {
-    });
-
 });
