@@ -42,7 +42,7 @@ describe('npm-package-env', function () {
 
         it('should return an object from the specified namespace with values from the specified keys', function () {
             let result = env['wrap-obj'].obj._as('object', ['foo']);
-            assert.ok(result);
+            assert(result && typeof result === 'object' && !Array.isArray(result));
             assert.equal(result.foo, 'bar');
         });
 
