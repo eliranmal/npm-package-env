@@ -17,7 +17,7 @@ describe('npm-package-env', function () {
     describe('#_in', function () {
 
         it('should return self', function () {
-            let self = env._in('npm_package_config');
+            let self = env._in('config');
             assert.ok(self);
             assert.equal(self, env);
         });
@@ -26,7 +26,7 @@ describe('npm-package-env', function () {
     describe('#_as', function () {
 
         beforeEach(function init() {
-            env._in('npm_package_config');
+            env._in('config');
         });
 
         describe('string', function () {

@@ -32,7 +32,7 @@ access.
 ###### my-npm-script.js
 
 ```javascript
-const npmEnv = require('npm-package-env')._in('npm_package_config');
+const npmEnv = require('npm-package-env')._in('config');
 npmEnv['dev-server'].port._as('string'); // -> '7777'
 ```
 
@@ -52,7 +52,7 @@ npmEnv['dev-server'].port._as('string'); // -> '7777'
 ###### my-npm-script.js
 
 ```javascript
-const npmEnv = require('npm-package-env')._in('npm_package');
+const npmEnv = require('npm-package-env');
 npmEnv.keywords._as('array'); // -> ['foo', 'bar', 'wat']
 npmEnv.keywords._as('array')[1]; // -> 'bar'
 ```
@@ -71,7 +71,7 @@ npmEnv.keywords._as('array')[1]; // -> 'bar'
 ###### my-npm-script.js
 
 ```javascript
-const npmEnv = require('npm-package-env')._in('npm_package');
+const npmEnv = require('npm-package-env');
 npmEnv.dependencies._as('object', ['auto-exports']); // -> {'auto-exports': '14.1.3'}
 ```
 
