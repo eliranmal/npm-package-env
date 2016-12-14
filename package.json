@@ -1,6 +1,6 @@
 {
   "name": "npm-package-env",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "conveniently get npm_package_ variables using property accessors",
   "main": "./lib/npm-package-env.js",
   "files": [
