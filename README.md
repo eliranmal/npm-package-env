@@ -19,6 +19,31 @@ this package provides easy access to [package.json variables][3] (or
 `[bracket]` notation are supported.
 
 
+## API
+
+### `.<property>` / `[<'property-name'>]` (property accessors)
+
+used to walk deeper into the package.json object tree. equivalent to 
+stating the full variable path in `process.env.npm_package_<var_path>`.
+
+_**Returns:** `{I}` a self reference (chainable), bound to the new namespace._  
+
+
+### `<property>(type, [...indices])` (function invocation)
+
+converts the variable value in the current namespace to the specified 
+type and returns it.
+
+_**`type`** `{String}` (optional) the result type, one of: `'string'`, `'array'` 
+or `'object'`. if type is not passed it defaults to 'string'._  
+_**`indices`** `{*}` (optional) when passing `'object'` as the type, 
+this is a whitelist of property keys that will be included in the result 
+object._  
+
+_**Returns:** `{String|Array|Object}` the current variable value as the 
+specified type, or `undefined` if no such variable was found._  
+
+
 ## examples
 
 all examples assume `my-npm-script.js` is run via `npm run`, i.e. the 
@@ -36,8 +61,11 @@ all examples assume `my-npm-script.js` is run via `npm run`, i.e. the
 ###### my-npm-script.js
 
 ```javascript
-const npmEnv = require('npm-package-env')._in('config');
-npmEnv['dev-server'].port._as('string'); // -> '7777'
+const npmEnv = require('npm-package-env');
+// with implicit type inference (no args)
+npmEnv.config['dev-server'].port(); // -> '7777'
+// with explicit type inference
+npmEnv.config['dev-server'].port('string'); // -> '7777'
 ```
 
 ###### package.json
@@ -57,8 +85,8 @@ npmEnv['dev-server'].port._as('string'); // -> '7777'
 
 ```javascript
 const npmEnv = require('npm-package-env');
-npmEnv.keywords._as('array'); // -> ['foo', 'bar', 'wat']
-npmEnv.keywords._as('array')[1]; // -> 'bar'
+npmEnv.keywords('array'); // -> ['foo', 'bar', 'wat']
+npmEnv.keywords('array')[1]; // -> 'bar'
 ```
 
 ###### package.json
@@ -76,7 +104,7 @@ npmEnv.keywords._as('array')[1]; // -> 'bar'
 
 ```javascript
 const npmEnv = require('npm-package-env');
-npmEnv.dependencies._as('object', ['auto-exports']); // -> {'auto-exports': '14.1.3'}
+npmEnv.dependencies('object', ['auto-exports']); // -> {'auto-exports': '14.1.3'}
 ```
 
 ###### package.json
@@ -87,48 +115,6 @@ npmEnv.dependencies._as('object', ['auto-exports']); // -> {'auto-exports': '14.
     "npm-package-env": "^2.0.21"
 }
 ```
-
-
-## API
-
-### `.<property>` / `[<'property-name'>]` (property accessors)
-
-used to walk deeper into the package.json object tree. equivalent to 
-stating the full variable path in `process.env.npm_package_<var_path>`.
-
-_**Returns:** `{I}` a self reference (chainable)._  
-
-
-### `_as(type, [...indices])`
-
-converts the current variable value to the specified type and returns it.
-
-_**`type`** `{String}` the result type, one of: `'string'`, `'array'` 
-or `'object'`._  
-_**`indices`** `{*}` (optional) when passing `'object'` as the type, 
-this is a whitelist of property keys that will be included in the result 
-object._  
-
-_**Returns:** `{String|Array|Object}` the current variable value as the 
-specified type, or `undefined` if no such variable was found._  
-
-
-### `_in([...prefixes])`
-
-`in`itializes a new `in`stance `in` the specified location, starting 
-from `npm_package_`. for example, to start every next property access 
-from `npm_package_config_server_auth`:
-
-```javascript
-let authConfig = npmEnv._in('config', 'server', 'auth');
-authConfig.user._as('string');
-authConfig.policies._as('array');
-```
-
-_**`prefixes`** `{*}` (optional) a list of prefix segments to bind to 
-the new instance._  
-
-_**Returns:** `{I}` a new instance, bound to the passed prefix._  
 
 
 
