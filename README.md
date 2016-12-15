@@ -12,6 +12,13 @@ npm i npm-package-env -S
 ```
 
 
+## overview
+
+this package provides easy access to [package.json variables][3] (or 
+[per-package config settings][4]) via property accessors - both `.dot` and 
+`[bracket]` notation are supported.
+
+
 ## examples
 
 all examples assume `my-npm-script.js` is run via `npm run`, i.e. the 
@@ -25,9 +32,6 @@ all examples assume `my-npm-script.js` is run via `npm run`, i.e. the
 
 
 ### getting a string
-
-this also demonstrates using both dot and bracket notation for property 
-access.
 
 ###### my-npm-script.js
 
@@ -85,8 +89,55 @@ npmEnv.dependencies._as('object', ['auto-exports']); // -> {'auto-exports': '14.
 ```
 
 
+## API
+
+### `.<property>` / `[<'property-name'>]` (property accessors)
+
+used to walk deeper into the package.json object tree. equivalent to 
+stating the full variable path in `process.env.npm_package_<var_path>`.
+
+_**Returns:** `{I}` a self reference (chainable)._  
+
+
+### `_as(type, [...indices])`
+
+converts the current variable value to the specified type and returns it.
+
+_**`type`** `{String}` the result type, one of: `'string'`, `'array'` 
+or `'object'`._  
+_**`indices`** `{*}` (optional) when passing `'object'` as the type, 
+this is a whitelist of property keys that will be included in the result 
+object._  
+
+_**Returns:** `{String|Array|Object}` the current variable value as the 
+specified type, or `undefined` if no such variable was found._  
+
+
+### `_in([...prefixes])`
+
+`in`itializes a new `in`stance `in` the specified location, starting 
+from `npm_package_`. for example, to start every next property access 
+from `npm_package_config_server_auth`:
+
+```javascript
+let authConfig = npmEnv._in('config', 'server', 'auth');
+authConfig.user._as('string');
+authConfig.policies._as('array');
+```
+
+_**`prefixes`** `{*}` (optional) a list of prefix segments to bind to 
+the new instance._  
+
+_**Returns:** `{I}` a new instance, bound to the passed prefix._  
+
+
+
+
+
 
 
 
 [1]: https://img.shields.io/npm/v/npm-package-env.svg?style=flat-square
 [2]: https://www.npmjs.com/package/npm-package-env
+[3]: https://docs.npmjs.com/misc/scripts#packagejson-vars
+[4]: https://docs.npmjs.com/misc/config#per-package-config-settings

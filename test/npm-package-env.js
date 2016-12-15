@@ -32,7 +32,7 @@ describe('npm-package-env', function () {
             assert.equal(envConfig.__meta._prefix[0], 'config');
         });
 
-        it('should not conflict with another instances\' accessor calls', function () {
+        it('should not conflict with other instances\' accessor calls', function () {
             let firstName = env.name._as('string');
             let envDependencies = env._in('dependencies');
             envDependencies.name._as('string');
