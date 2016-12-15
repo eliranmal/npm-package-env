@@ -18,6 +18,11 @@ describe('npm-package-env', function () {
         env = require('../lib/npm-package-env');
     });
     
+    it('should allow property access out of the box', function () {
+        let name = env.name._as('string');
+        assert.ok(name);
+    });
+    
     describe('#_in', function () {
 
         it('should return a new instance', function () {
