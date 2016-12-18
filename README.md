@@ -25,7 +25,7 @@ config settings][4]) via a virtual object.
 retrieves the current value or walks deeper into the `npm_package_` tree. 
 equivalent to stating the full variable path in `process.env.npm_package_<var_path>`.
 
-_**Returns:** `{I|String}` the current value, if exists, or a chainable 
+_**Returns:** `{String|I}` the current value, if exists, or a chainable 
 object, bound to the new namespace._  
 
 
