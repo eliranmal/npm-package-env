@@ -14,58 +14,40 @@ npm i npm-package-env -S
 
 ## overview
 
-this package provides easy access to [package.json variables][3] (or 
-[per-package config settings][4]) via property accessors - both `.dot` and 
-`[bracket]` notation are supported.
+provides easy access to [package.json variables][3] (or [per-package 
+config settings][4]) via a virtual object.
 
 
 ## API
 
 ### `.<property>` / `[<'property-name'>]` (property accessors)
 
-used to walk deeper into the package.json object tree. equivalent to 
-stating the full variable path in `process.env.npm_package_<var_path>`.
+retrieves the current value or walks deeper into the `npm_package_` tree. 
+equivalent to stating the full variable path in `process.env.npm_package_<var_path>`.
 
-_**Returns:** `{I}` a self reference (chainable), bound to the new namespace._  
-
-
-### `<property>(type, [...indices])` (function invocation)
-
-converts the variable value in the current namespace to the specified 
-type and returns it.
-
-_**`type`** `{String}` (optional) the result type, one of: `'string'`, `'array'` 
-or `'object'`. if type is not passed it defaults to 'string'._  
-_**`indices`** `{*}` (optional) when passing `'object'` as the type, 
-this is a whitelist of property keys that will be included in the result 
-object._  
-
-_**Returns:** `{String|Array|Object}` the current variable value as the 
-specified type, or `undefined` if no such variable was found._  
+_**Returns:** `{I|String}` the current value, if exists, or a chainable 
+object, bound to the new namespace._  
 
 
 ## examples
 
-all examples assume `my-npm-script.js` is run via `npm run`, i.e. the 
+all examples assume `npm-script.js` is run via `npm run`, i.e. the 
 `package.json` has something like this:
 
 ```json
 "scripts": {
-    "start": "my-npm-script"
+    "start": "npm-script"
 }
 ```
 
 
-### getting a string
+### getting a string value
 
-###### my-npm-script.js
+###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
-// with implicit type inference (no args)
-npmEnv.config['dev-server'].port(); // -> '7777'
-// with explicit type inference
-npmEnv.config['dev-server'].port('string'); // -> '7777'
+npmEnv.config['dev-server'].port; // -> '7777'
 ```
 
 ###### package.json
@@ -79,14 +61,13 @@ npmEnv.config['dev-server'].port('string'); // -> '7777'
 ```
 
 
-### getting an array
+### getting a value inside an array
 
-###### my-npm-script.js
+###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
-npmEnv.keywords('array'); // -> ['foo', 'bar', 'wat']
-npmEnv.keywords('array')[1]; // -> 'bar'
+npmEnv.keywords[1]; // -> 'bar'
 ```
 
 ###### package.json
@@ -98,13 +79,13 @@ npmEnv.keywords('array')[1]; // -> 'bar'
 ```
 
 
-### getting an object by keys
+### getting a value inside an object
 
-###### my-npm-script.js
+###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
-npmEnv.dependencies('object', ['auto-exports']); // -> {'auto-exports': '14.1.3'}
+npmEnv.dependencies['auto-exports']; // -> '14.1.3'
 ```
 
 ###### package.json
