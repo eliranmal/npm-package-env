@@ -14,8 +14,8 @@ npm i npm-package-env -S
 
 ## overview
 
-provides easy access to [package.json variables][3] (or [per-package 
-config settings][4]) via a virtual object.
+provides easy access to [per-package config settings][4] (or 
+[package variables][3]) via a virtual object.
 
 
 ## API
