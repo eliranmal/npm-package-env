@@ -22,11 +22,24 @@ provides easy access to [per-package config settings][4] (or
 
 ### `.<property>` / `[<'property-name'>]` (property accessors)
 
+### `get`
+
 retrieves the current value or walks deeper into the `npm_package_` tree. 
 equivalent to stating the full variable path in `process.env.npm_package_<var_path>`.
 
 _**Returns:** `{String|I}` the current value, if exists, or a chainable 
 object, bound to the new namespace._  
+
+
+### `set`
+
+
+retrieves the current value or walks deeper into the `npm_package_` tree. 
+equivalent to stating the full variable path in `process.env.npm_package_<var_path>`.
+
+_**Returns:** `{String|I}` the current value, if exists, or a chainable 
+object, bound to the new namespace._  
+
 
 
 ## examples
@@ -41,13 +54,15 @@ all examples assume `npm-script.js` is run via `npm run`, i.e. the
 ```
 
 
-### getting a string value
+### getting / setting a value
 
 ###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
 npmEnv.config['dev-server'].port; // -> '7777'
+npmEnv.config['dev-server'].port = 9999;
+npmEnv.config['dev-server'].port; // -> '9999'
 ```
 
 ###### package.json
@@ -61,13 +76,15 @@ npmEnv.config['dev-server'].port; // -> '7777'
 ```
 
 
-### getting a value inside an array
+### getting / setting a value inside an array
 
 ###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
 npmEnv.keywords[1]; // -> 'bar'
+npmEnv.keywords[1] = 'wow';
+npmEnv.keywords[1]; // -> 'wow'
 ```
 
 ###### package.json
@@ -79,13 +96,15 @@ npmEnv.keywords[1]; // -> 'bar'
 ```
 
 
-### getting a value inside an object
+### getting / setting a value inside an object
 
 ###### npm-script.js
 
 ```javascript
 const npmEnv = require('npm-package-env');
 npmEnv.dependencies['auto-exports']; // -> '14.1.3'
+npmEnv.dependencies['auto-exports'] = '~2.0.1';
+npmEnv.dependencies['auto-exports']; // -> '~2.0.1'
 ```
 
 ###### package.json
