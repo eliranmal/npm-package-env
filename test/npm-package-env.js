@@ -73,7 +73,7 @@ describe(`npm-package-env`, function () {
 
             it(`should not interfere with later accessor calls on the same instance`, function () {
                 env.config['wrap-obj'].foo;
-                assert.equal(expectedEnv.version, env.version);
+                assert.equal(env.version, expectedEnv.version);
             });
 
             it(`should not interfere with other instances' accessor calls`, function () {
@@ -82,14 +82,14 @@ describe(`npm-package-env`, function () {
                 conf1.foo;
                 let expected = conf2.foo;
                 let actual = expectedEnv.config.foo;
-                assert.strictEqual(expected, actual);
+                assert.strictEqual(actual, expected);
             });
-            
+
             it(`should return the property value as string`, function () {
                 let expected = expectedEnv.config.foo;
                 let actual = env.config.foo;
                 assert.ok(typeof actual === 'string');
-                assert.strictEqual(expected, actual);
+                assert.strictEqual(actual, expected);
             });
 
             describe(`inside an array`, function () {
@@ -98,7 +98,7 @@ describe(`npm-package-env`, function () {
                     let expected = expectedEnv.config['wrap-obj'].arr[1];
                     let actual = env.config['wrap-obj'].arr[1];
                     assert.ok(typeof actual === 'string');
-                    assert.strictEqual(expected, actual);
+                    assert.strictEqual(actual, expected);
                 });
             });
 
@@ -108,7 +108,7 @@ describe(`npm-package-env`, function () {
                     let expected = expectedEnv.config['wrap-obj'].obj.foo;
                     let actual = env.config['wrap-obj'].obj.foo;
                     assert.ok(typeof actual === 'string');
-                    assert.strictEqual(expected, actual);
+                    assert.strictEqual(actual, expected);
                 });
             });
         });
@@ -118,9 +118,9 @@ describe(`npm-package-env`, function () {
             it(`should return truthy`, function () {
                 assert.ok(env.watwatwat);
             });
-            
+
             it(`should return a similar instance`, function () {
-                assert.notStrictEqual(env, env.watwatwat);
+                assert.notStrictEqual(env.watwatwat, env);
             });
 
             it(`should work with both dot and bracket notation`, function () {
@@ -129,4 +129,66 @@ describe(`npm-package-env`, function () {
             });
         });
     });
+
+    describe(`property write`, function () {
+
+        beforeEach(function init() {
+            env = require('../lib/npm-package-env');
+        });
+
+        describe(`on existing value (overwrite)`, function () {
+
+            beforeEach(function init() {
+                env.config.foo = expectedEnv.config.foo;
+                env.config['wrap-obj'].arr[1] = expectedEnv.config['wrap-obj'].arr[1];
+                env.config['wrap-obj'].obj.foo = expectedEnv.config['wrap-obj'].obj.foo;
+            });
+
+            it(`should set a new value for the property`, function () {
+                let original = env.config.foo;
+                env.config.foo = 'lol';
+                let updated = env.config.foo;
+                assert.notEqual(updated, original);
+            });
+
+            describe(`inside an array`, function () {
+                it(`should set a new value for the property`, function () {
+                    let original = env.config['wrap-obj'].arr[1];
+                    env.config['wrap-obj'].arr[1] = 'lol';
+                    let updated = env.config['wrap-obj'].arr[1];
+                    assert.notEqual(updated, original);
+                });
+            });
+
+            describe(`inside an object`, function () {
+                it(`should set a new value for the property`, function () {
+                    let original = env.config['wrap-obj'].obj.foo;
+                    env.config['wrap-obj'].obj.foo = 'lol';
+                    let updated = env.config['wrap-obj'].obj.foo;
+                    assert.notEqual(updated, original);
+                });
+            });
+        });
+
+        describe(`on non-existing value`, function () {
+
+            it(`should set a new value for the property`, function () {
+                let original = env.config['wrap-obj'].obj.watwatwat;
+                env.config['wrap-obj'].obj.watwatwat = 'lol';
+                let updated = env.config['wrap-obj'].obj.watwatwat;
+                assert.notEqual(updated, original);
+            });
+        });
+    });
+    
+    xdescribe(`property removal`, function () {
+
+        it(`should delete the property value`, function () {
+            let original = env.config['wrap-obj'].obj.watwatwat;
+            env.config['wrap-obj'].obj.watwatwat = 'lol';
+            let updated = env.config['wrap-obj'].obj.watwatwat;
+            assert.notEqual(updated, original);
+        });
+    });
 });
+                    
