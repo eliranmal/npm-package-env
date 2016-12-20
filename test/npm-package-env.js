@@ -72,7 +72,6 @@ describe(`npm-package-env`, function () {
             });
 
             it(`should be reflectable`, function () {
-                console.log(env.name);
                 assert.ok(Reflect.has({'npm-package-env': 'wat'}, env.name));
             });
 
@@ -83,8 +82,16 @@ describe(`npm-package-env`, function () {
 
             it(`should return the same result on multiple invocations after assigning the chained proxy`, function () {
                 let data = env.config['wrap-obj'];
-                assert.equal(data.foo, expectedEnv.config['wrap-obj'].foo);
-                assert.equal(data.foo, expectedEnv.config['wrap-obj'].foo);
+                let expected = expectedEnv.config['wrap-obj'].foo;
+                assert.equal(data.foo, expected);
+                assert.equal(data.foo, expected);
+            });
+
+            it(`should return the same result on multiple invocations after assigning the chained proxy (deep access)`, function () {
+                let data = env.config['wrap-obj'];
+                let expected = expectedEnv.config['wrap-obj'].obj.foo;
+                assert.equal(data.obj.foo, expected);
+                assert.equal(data.obj.foo, expected);
             });
 
             it(`should not interfere with later accessor calls on the same instance`, function () {
