@@ -71,6 +71,22 @@ describe(`npm-package-env`, function () {
                 assert.ok(env['version']);
             });
 
+            it(`should be reflectable`, function () {
+                console.log(env.name);
+                assert.ok(Reflect.has({'npm-package-env': 'wat'}, env.name));
+            });
+
+            it(`should return the same result on multiple invocations`, function () {
+                assert.equal(env.name, expectedEnv.name);
+                assert.equal(env.name, expectedEnv.name);
+            });
+
+            it(`should return the same result on multiple invocations after assigning the chained proxy`, function () {
+                let data = env.config['wrap-obj'];
+                assert.equal(data.foo, expectedEnv.config['wrap-obj'].foo);
+                assert.equal(data.foo, expectedEnv.config['wrap-obj'].foo);
+            });
+
             it(`should not interfere with later accessor calls on the same instance`, function () {
                 env.config['wrap-obj'].foo;
                 assert.equal(env.version, expectedEnv.version);
