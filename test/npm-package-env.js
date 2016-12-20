@@ -167,6 +167,18 @@ describe(`npm-package-env`, function () {
                 assert.notEqual(updated, original);
             });
 
+            it.only(`should not fail on a falsish value`, function () {
+                let setter = () => env.config.foo = 0;
+                assert.doesNotThrow(setter, TypeError);
+            });
+
+            it.only(`should set a new value for the property even if its falsish`, function () {
+                let original = env.config.foo;
+                env.config.foo = 0;
+                let updated = env.config.foo;
+                assert.notEqual(updated, original);
+            });
+
             describe(`inside an array`, function () {
                 it(`should set a new value for the property`, function () {
                     let original = env.config['wrap-obj'].arr[1];
