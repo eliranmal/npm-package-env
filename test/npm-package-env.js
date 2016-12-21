@@ -201,7 +201,7 @@ describe(`npm-package-env > `, function () {
                     assert.notEqual(updated, original);
                 });
                 
-                it.only(`should set the last value assigned`, function () {
+                it(`should set the last value assigned`, function () {
                     env.config.foo = 'wat';
                     env.config.foo = 'lol';
                     let last = env.config.foo;

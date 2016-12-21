@@ -13,3 +13,6 @@ out/
 # node.js/npm
 node_modules/
 npm-debug.log
+
+# local
+assert-api-cheatsheet.js
