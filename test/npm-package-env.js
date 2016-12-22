@@ -18,7 +18,7 @@ describe(`npm-package-env > `, function () {
         expectedEnv = require('../package.json');
     });
 
-    describe(`requiring the module, `, function () {
+    describe(`requiring the module,`, function () {
 
         beforeEach(function init() {
             env = require('../lib/npm-package-env');
@@ -36,13 +36,13 @@ describe(`npm-package-env > `, function () {
         });
     });
 
-    describe(`property access, `, function () {
+    describe(`property access,`, function () {
 
         beforeEach(function init() {
             env = require('../lib/npm-package-env');
         });
 
-        describe(`on an existing value, `, function () {
+        describe(`on existing value,`, function () {
 
             it(`should return truthy`, function () {
                 assert.ok(env.version);
@@ -57,7 +57,7 @@ describe(`npm-package-env > `, function () {
                 assert.ok(Reflect.has({'npm-package-env': 'wat'}, env.name));
             });
 
-            describe(`on multiple invocations of the same instance, `, function () {
+            describe(`on multiple invocations of the same instance,`, function () {
 
                 it(`should return the same result`, function () {
                     assert.equal(env.name, expectedEnv.name);
@@ -100,7 +100,7 @@ describe(`npm-package-env > `, function () {
                 assert.strictEqual(actual, expected);
             });
 
-            describe(`inside an array, `, function () {
+            describe(`inside an array,`, function () {
 
                 it(`should return the property value as string`, function () {
                     let expected = expectedEnv.config['wrap-obj'].arr[1];
@@ -110,7 +110,7 @@ describe(`npm-package-env > `, function () {
                 });
             });
 
-            describe(`inside an object, `, function () {
+            describe(`inside an object,`, function () {
 
                 it(`should return the property value as string`, function () {
                     let expected = expectedEnv.config['wrap-obj'].obj.foo;
@@ -121,7 +121,7 @@ describe(`npm-package-env > `, function () {
             });
         });
 
-        describe(`on non-existing value, `, function () {
+        describe(`on non-existing value,`, function () {
 
             it(`should return truthy`, function () {
                 assert.ok(env.watwatwat);
@@ -138,18 +138,16 @@ describe(`npm-package-env > `, function () {
         });
     });
 
-    describe(`property write, `, function () {
+    describe(`property write,`, function () {
 
         beforeEach(function init() {
             env = require('../lib/npm-package-env');
         });
 
-        describe(`on existing value (overwrite), `, function () {
+        describe(`on existing value,`, function () {
 
             beforeEach(function init() {
                 env.config.foo = expectedEnv.config.foo;
-                env.config['wrap-obj'].arr[1] = expectedEnv.config['wrap-obj'].arr[1];
-                env.config['wrap-obj'].obj.foo = expectedEnv.config['wrap-obj'].obj.foo;
             });
 
             it(`should set a new value`, function () {
@@ -171,7 +169,33 @@ describe(`npm-package-env > `, function () {
                 assert.notEqual(updated, original);
             });
 
-            describe(`inside an array, `, function () {
+            describe(`when the value is not a string,`, function () {
+                
+                it(`should coerce the value to a string`, function () {
+                    env.config.foo = 1;
+                    let coerced = env.config.foo;
+                    console.log('typeof coerced: ', typeof coerced);
+                    assert(typeof coerced === 'string');
+                });
+                
+                it(`should coerce the value to a string even if it does not exist`, function () {
+                    env.lalala = 1;
+                    let coerced = env.lalala;
+                    assert(typeof coerced === 'string');
+                });
+                
+                it(`should coerce the value to a string even if it does not exist (deep access)`, function () {
+                    env.config.lalala = 1;
+                    let coerced = env.config.lalala;
+                    assert(typeof coerced === 'string');
+                });
+            });
+
+            describe(`inside an array,`, function () {
+
+                beforeEach(function init() {
+                    env.config['wrap-obj'].arr[1] = expectedEnv.config['wrap-obj'].arr[1];
+                });
                 
                 it(`should set a new value`, function () {
                     let original = env.config['wrap-obj'].arr[1];
@@ -181,7 +205,11 @@ describe(`npm-package-env > `, function () {
                 });
             });
 
-            describe(`inside an object, `, function () {
+            describe(`inside an object,`, function () {
+
+                beforeEach(function init() {
+                    env.config['wrap-obj'].obj.foo = expectedEnv.config['wrap-obj'].obj.foo;
+                });
                 
                 it(`should set a new value`, function () {
                     let original = env.config['wrap-obj'].obj.foo;
@@ -191,7 +219,7 @@ describe(`npm-package-env > `, function () {
                 });
             });
 
-            describe(`on multiple invocations of the same instance, `, function () {
+            describe(`on multiple invocations of the same instance,`, function () {
                 
                 it(`should set a new value`, function () {
                     let original = env.config.foo;
@@ -210,7 +238,7 @@ describe(`npm-package-env > `, function () {
             });
         });
 
-        describe(`on non-existing value, `, function () {
+        describe(`on non-existing value,`, function () {
 
             it(`should set a new value`, function () {
                 let original = env.config['wrap-obj'].obj.watwatwat;
@@ -221,7 +249,7 @@ describe(`npm-package-env > `, function () {
         });
     });
     
-    xdescribe(`property removal, `, function () {
+    xdescribe(`property removal,`, function () {
 
         it(`should delete the property value`, function () {
             let original = env.config['wrap-obj'].obj.watwatwat;
