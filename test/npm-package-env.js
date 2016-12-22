@@ -174,7 +174,6 @@ describe(`npm-package-env > `, function () {
                 it(`should coerce the value to a string`, function () {
                     env.config.foo = 1;
                     let coerced = env.config.foo;
-                    console.log('typeof coerced: ', typeof coerced);
                     assert(typeof coerced === 'string');
                 });
                 
