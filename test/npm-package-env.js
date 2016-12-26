@@ -64,14 +64,14 @@ describe(`npm-package-env > `, function () {
                     assert.equal(env.name, expectedEnv.name);
                 });
 
-                it(`should return the same result after assigning the chained proxy`, function () {
+                it(`should return the same result with a shortcut reference`, function () {
                     let data = env.config['wrap-obj'];
                     let expected = expectedEnv.config['wrap-obj'].foo;
                     assert.equal(data.foo, expected);
                     assert.equal(data.foo, expected);
                 });
 
-                it(`should return the same result after assigning the chained proxy (deep access)`, function () {
+                it(`should return the same result with a shortcut reference (deep access)`, function () {
                     let data = env.config['wrap-obj'];
                     let expected = expectedEnv.config['wrap-obj'].obj.foo;
                     assert.equal(data.obj.foo, expected);
