@@ -22,7 +22,7 @@ provides easy access to [per-package config settings][4] (or
 
 ### `.<property>` / `[<'property-name'>]` (property accessors)
 
-### `get`
+#### `get`
 
 retrieves the current value or walks deeper into the `npm_package_` tree. 
 equivalent to stating the full variable path in `process.env.npm_package_<var_path>`.
@@ -31,7 +31,7 @@ _**Returns:** `{String|I}` the current value, if exists, or a chainable
 object, bound to the new namespace._  
 
 
-### `set`
+#### `set`
 
 sets a new value in the specified namespace, coerced to a string. 
 equivalent to assigning a variable value to `process.env.npm_package_<var_path>`.
