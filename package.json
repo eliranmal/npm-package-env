@@ -1,7 +1,7 @@
 {
   "name": "npm-package-env",
   "version": "0.4.9",
-  "description": "conveniently use npm_package_ variables using property accessors",
+  "description": "conveniently use npm_package_ variables via property accessors",
   "main": "./lib/npm-package-env.js",
   "files": [
     "lib"

@@ -1,6 +1,6 @@
 # npm-package-env
 
-> conveniently use `npm_package_` variables using property accessors
+> conveniently use `npm_package_` variables via property accessors
 
 [![NPM][1]][2]
 
